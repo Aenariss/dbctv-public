@@ -1,0 +1,31 @@
+<!--
+    * 500.html 
+    * Autor: Vojtech Fiala <xfiala61>
+    *
+    # Soucast bakalarske prace Databaze Vysilani Ceskoslovenske Televize, 2022
+    *
+    * Chybova hlaska pro vnitrni chybu -- nemela by se nikdy zobrazit
+-->
+
+
+{% extends "base.html" %}   <!-- Hlavicka -->
+
+{% block pagetitle %}Databáze vysílání Československé televize -- 500{% endblock %}    <!-- Nazev stranky -->
+{% block title %}Databáze vysílání Československé televize{% endblock %}    <!-- Titul stranky -->
+
+{% block body %}    <!-- Telo stranky -->
+
+<div class="container">
+    <div class="text-center" style="padding: 1em;">
+        <h1>
+            Došlo k chybě!
+        </h1>
+        <h2>
+            Error 500 - Vnitřní chyba!
+        </h2>
+        Omlouvám se za vzniklé komplikace, toto by se dít nemělo...<br>
+        Kontaktuje prosím autora na emailu <i>xfiala61@stud.fit.vutbr.cz</i>.
+    </div>
+</div>
+
+{% endblock %}

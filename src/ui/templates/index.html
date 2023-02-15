@@ -1,0 +1,168 @@
+<!--
+    * index.html 
+    * Autor: Vojtech Fiala <xfiala61>
+    *
+    # Soucast bakalarske prace Databaze Vysilani Ceskoslovenske Televize, 2022
+    *
+    * Slouzi k vykresleni stranky s vysilanim
+-->
+
+
+{% extends "base.html" %}   <!-- Hlavicka -->
+
+{% block pagetitle %}Databáze vysílání Československé televize{% endblock %}    <!-- Nazev stranky -->
+{% block title %}Databáze vysílání Československé televize{% endblock %}    <!-- Titul stranky -->
+
+{% block body %}    <!-- Telo stranky -->
+
+<div class="cnt">
+    <div class="flx">
+        <div id="Monday" style="text-align: center;" class="p-2">
+            <div class="date">
+                <!-- Datum vysilani pondeli -->
+                {{ dates[0] }}
+            </div>
+            <div class="day">
+                Pondělí
+            </div>
+            <div class="program">
+                {% for serie in days[0] %}
+                    <!-- Pro vsechny porady vypis cas vysilani, nazev a popis -->
+                    <div id="{{ serie[2].date + serie[3].timeAiring }}">
+                        <p class="time">{{ serie[3].timeAiring }}</p>
+                        <p class="serie-name"> {{ serie[1].name}}</p>
+                        <p class="descr"> {{ serie[4].description }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="Tuesday" style="text-align: center;" class="p-2">
+            <div class="date">
+                <!-- Datum vysilani utery -->
+                {{ dates[1] }}
+            </div>
+            <div class="day">
+                Úterý
+            </div>
+            <div class="program">
+                {% for serie in days[1] %}
+                    <!-- Pro vsechny porady vypis cas vysilani, nazev a popis -->
+                    <div id="{{ serie[2].date + serie[3].timeAiring }}">
+                        <p class="time">{{ serie[3].timeAiring }}</p>
+                        <p class="serie-name"> {{ serie[1].name}}</p>
+                        <p class="descr"> {{ serie[4].description }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="Wednesday" style="text-align: center;" class="p-2">
+            <div class="date">
+                <!-- Datum vysilani streda -->
+                {{ dates[2] }}
+            </div>
+            <div class="day">
+                Středa
+            </div>
+            <div class="program">
+                {% for serie in days[2] %}
+                    <!-- Pro vsechny porady vypis cas vysilani, nazev a popis -->
+                    <div id="{{ serie[2].date + serie[3].timeAiring }}">
+                        <p class="time">{{ serie[3].timeAiring }}</p>
+                        <p class="serie-name"> {{ serie[1].name}}</p>
+                        <p class="descr"> {{ serie[4].description }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="Thursday" style="text-align: center;" class="p-2">
+            <div class="date">
+                <!-- Datum vysilani ctvrtek -->
+                {{ dates[3] }}
+            </div>
+            <div class="day">
+                Čtvrtek
+            </div>
+            <div class="program">
+                {% for serie in days[3] %}
+                    <!-- Pro vsechny porady vypis cas vysilani, nazev a popis -->
+                    <div id="{{ serie[2].date + serie[3].timeAiring }}">
+                        <p class="time">{{ serie[3].timeAiring }}</p>
+                        <p class="serie-name"> {{ serie[1].name}}</p>
+                        <p class="descr"> {{ serie[4].description }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="Friday" style="text-align: center;" class="p-2">
+            <div class="date">
+                <!-- Datum vysilani patek -->
+                {{ dates[4] }}
+            </div>
+            <div class="day">
+                Pátek
+            </div>
+            <div class="program">
+                {% for serie in days[4] %}
+                    <!-- Pro vsechny porady vypis cas vysilani, nazev a popis -->
+                    <div id="{{ serie[2].date + serie[3].timeAiring }}">
+                        <p class="time">{{ serie[3].timeAiring }}</p>
+                        <p class="serie-name"> {{ serie[1].name}}</p>
+                        <p class="descr"> {{ serie[4].description }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="Saturday" style="text-align: center;" class="p-2">
+            <div class="date">
+                <!-- Datum vysilani sobota -->
+                {{ dates[5] }}
+            </div>
+            <div class="day">
+                Sobota
+            </div>
+            <div class="program">
+                {% for serie in days[5] %}
+                    <!-- Pro vsechny porady vypis cas vysilani, nazev a popis -->
+                    <div id="{{ serie[2].date + serie[3].timeAiring }}">
+                        <p class="time">{{ serie[3].timeAiring }}</p>
+                        <p class="serie-name"> {{ serie[1].name}}</p>
+                        <p class="descr"> {{ serie[4].description }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="Sunday" style="text-align: center;" class="p-2">
+            <div class="date">
+                <!-- Datum vysilani nedele -->
+                {{ dates[6] }}
+            </div>
+            <div class="day">
+                Neděle
+            </div>
+            <div class="program">
+                {% for serie in days[6] %}
+                    <!-- Pro vsechny porady vypis cas vysilani, nazev a popis -->
+                    <div id="{{ serie[2].date + serie[3].timeAiring }}">
+                        <p class="time">{{ serie[3].timeAiring }}</p>
+                        <p class="serie-name"> {{ serie[1].name}}</p>
+                        <p class="descr"> {{ serie[4].description }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // zvyrazni vybrany den
+    document.getElementById("{{ weekday }}").classList.add("selected-day");
+</script>
+
+{% if highlight|length %}
+<!-- Jestlize byl poskytnut zvyrazneny cas, tak zvyrazni odpovidajici prvek -->
+    <script>
+        document.getElementById("{{ highlight }}").classList.add("highlighted-time");
+    </script>
+{% endif %}
+
+{% endblock %}

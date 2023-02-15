@@ -1,0 +1,55 @@
+<!--
+    * infopage.html 
+    * Autor: Vojtech Fiala <xfiala61>
+    *
+    # Soucast bakalarske prace Databaze Vysilani Ceskoslovenske Televize, 2022
+    *
+    * Stranka s info o projektu
+-->
+
+
+{% extends "base.html" %}   <!-- Hlavicka -->
+
+{% block pagetitle %}Databáze vysílání Československé televize{% endblock %}    <!-- Nazev stranky -->
+{% block title %}Databáze vysílání Československé televize{% endblock %}    <!-- Titul stranky -->
+
+{% block body %}    <!-- Telo stranky -->
+
+<div class="container">
+    <div class="text-justify" style="padding-top: 4em;">
+        Tyto stránky vznikly jako součást bakalářské práce <i>Databáze vysílání Československé televize</i> na <a href="https://www.fit.vut.cz/.cs">VUT FIT</a>.
+        Jejich autorem je student VUT FIT Vojtěch Fiala.
+    </div>
+    <div class="text-justify">
+        Stránky slouží jako interaktivní webové rozhraní pro přístup k databázi vysílání Československé televize mezi lety 1966 a 1992.<br>
+        Jako zdrojový materiál ke tvorbě sloužily digitální skeny Týdeníku televize a jeho pozdějších obdob, které byly pro účely této práce poskytnuty pracovníky archivu ČT.<br>
+        Databáze byla vytvořena automaticky za pomoci OCR systému <cite><a href="https://github.com/tesseract-ocr/tesseract">Tesseract</a></cite>. 
+        Zdigitalizované výsledky prošly ještě manuální kontrolou, během které docházelo zejména ke korekci chybných dat.<br>
+        Problémy s názvy/popisy a celkově "nepořádek", který lze u pořadů často spatřit, souvisí s nedostatky OCR systému, které jsou zapříčiněny zejména selhávající segmentací vstupního textu. <br>
+        Práce byla primárně zaměřená na českou část vysílání, je v ní ale možné v omezené míře procházet i vysílání ČST pro Slovensko, tzv. "Slovenský Okruh", který označuje vysílání pro Bratislavu a Košice.
+    </div>
+
+    <div class="text-justify">
+        <h2>Historie ČST</h2>
+        <i>Převzato ze stránek <cite><a href="https://www.ceskatelevize.cz/vse-o-ct/historie/ceskoslovenska-televize/prehistorie/">České televize</a></cite></i><br>
+        První pokusné vysílání televize v Československu se konalo 23. 3. 1948 v Tanvaldě, kde skupina vědců Vojenského technického ústavu uskutečnila ukázku pro veřejnost. Další pokusné televizní vysílání se pak uskutečnilo v roce 1948 v rámci Mezinárodní výstavy rozhlasu MEVRO v Praze.
+        <br><br>Zkušební televizní vysílání ze Studia Praha v Měšťanské Besedě (ve Vladislavově ulici) bylo zahájeno 1. května 1953 a 25. února 1954 bylo prohlášeno za pravidelné. Pro první televizní vysílač byla v roce 1953 adaptována pražská rozhledna na Petříně. Zpočátku televize vysílala pouze tři dny v týdnu (v létě jen 2 dny), v listopadu 1953 se počet vysílacích dnů rozšířil na čtyři, v roce 1955 na šest dní v týdnu a od 29. prosince 1958 televize své pořady vysílala po celý týden.
+        <br><br>Záhy začala vznikat další studia: 31. prosince 1955 v Ostravě, 3. listopadu 1956 v Bratislavě, 6. července 1961 v Brně a 25. února 1962 v Košicích.
+            Souběžně s rozvojem televize přibývalo diváků. V září 1962 bylo již milion platících diváků, v březnu 1965 byly hlášeny 2 miliony koncesionářů, v prosinci 1969 byla překročena hranice 3 milionů a v roce 1978 překročil počet hlášených přijímačů 4 miliony.
+        <br><br>V 60. letech byla zahájena výstavba nových televizních středisek v Praze a Bratislavě a vláda rozhodla o vytvoření druhého programu (usnesení vlády v roce 1965 a 1967). Vytvářely se tak předpoklady pro další technické a programové změny v 70. letech.
+        V říjnu 1970 byly dokončeny první etapy výstavby a předány první provozy v nových televizních střediscích na Kavčích horách v Praze (17. října 1970) a v Mlynské dolině v Bratislavě (26. října 1970). Další etapy výstavby pokračovaly až do konce 70. let a toto rozšiřování výrobních a technických kapacit umožnilo zvětšovat rozsah vysílání.
+        <br><br>Dne 10. května 1970 bylo vysílání Čs. televize obohaceno o druhý program. Na něm 9. května 1973 bylo zahájeno pravidelné barevné vysílání. Na prvním programu se diváci pravidelného barevného vysílání dočkali 9. května 1975. V lednu 1979 byl v Praze zprovozněn nový objekt televizního zpravodajství na Kavčích horách.
+        <br><br><i>Převzato z <cite><a href="https://cs.wikipedia.org/wiki/%C4%8Ceskoslovensk%C3%A1_televize">Wikipedie</a></cite></i>
+        <br>V květnu 1988 bylo zahájeno pravidelné vysílání teletextu.
+        <br>Během sametové revoluce v listopadu 1989 se zaměstnanci ČST stavěli za protestující a v pořadech (Televizní noviny, Aktuality, Minuty dne, Na padesátníku aj.) informovali o probíhajícím dění. 
+        Po pádu komunistického režimu došlo koncem roku 1989 a během roku 1990 k výrazným personálním i programovým změnám. 
+        <br><br>Dne 14. května 1990 bylo zahájeno vysílání třetího kanálu OK3 a k 3. září 1990 byl stávající I. program převeden na celostátní federální stanici F1, zatímco II. program byl rozdělen na dvě národní stanice, českou ČTV a slovenskou STV.
+        Na Slovensku byl 1. dubna 1991 kanál OK3 nahrazen novým národním kanálem TA3. 
+        <br><br>Dne 1. července 1991 vznikla vyčleněním slovenských studií samostatná veřejnoprávní Slovenská televize (STV), která začala místo Československé televize provozovat stanice STV a TA3 a zároveň dodávala pořady pro federální kanál F1.
+        Obdobně byla 1. ledna 1992 zřízena veřejnoprávní Česká televize (ČT), jež nově provozovala kanály ČTV a OK3 a podílela se na pořadech F1. Od začátku roku 1992 tak Československá televize pouze vyráběla zpravodajství pro celostátní stanici F1, kterou také provozovala.
+        V květnu 1992 uzavřely ČST, ČT a STV smlouvu o vytvoření Československé televizní asociace, která požádala o členství v Evropské vysílací unii.
+        <br><br>Vzhledem k zániku Československa na konci roku 1992 byla Československá televize zákonem č. 597/1992 Sb., o zrušení Československého rozhlasu, Československé televize a Československé tiskové kanceláře, i s federálním kanálem F1 k 31. prosinci 1992 zrušena.
+    </div>
+</div>
+
+{% endblock %}

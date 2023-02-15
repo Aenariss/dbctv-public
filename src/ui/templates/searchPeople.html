@@ -1,0 +1,55 @@
+<!--
+    * searchPeople.html 
+    * Autor: Vojtech Fiala <xfiala61>
+    *
+    # Soucast bakalarske prace Databaze Vysilani Ceskoslovenske Televize, 2022
+    *
+    * Slouzi k vykresleni sablony pro vysledky vyhledavani osob
+-->
+
+
+{% extends "base.html" %}   <!-- Hlavicka -->
+
+{% block pagetitle %}Databáze vysílání Československé televize{% endblock %}    <!-- Nazev stranky -->
+{% block title %}Databáze vysílání Československé televize{% endblock %}    <!-- Titul stranky -->
+
+{% block body %}    <!-- Telo stranky -->
+
+<div class="cnt">
+    <div style="text-align: center;">
+        <br><b>Vyhledávaný text: <i>{{ text }}</i></b><br>
+        <b>Bylo nalezeno celkem {{ results|length }} výsledků.</b>
+        <br><br>
+        <table class="search-table">
+        <tr>
+            <th>Role</th>
+            <th>Nalezená osoba</th>
+            <th>Datum vysílání</th>
+            <th>Čas vysílání</th>
+            <th>Název pořadu</th>
+            <th>Kanál</th>
+            <th>Okruh vysílání</th>
+        </tr>
+        {% set count = namespace(value=0) %}
+        {% for result in results %}
+        <tr>
+            <td>{{ people[count.value][1] }}</td>
+            <td>{{ people[count.value][0] }}</td>
+            <td><a href="{{ url_for('index', programme=result[0][0].programme, country=result[0][4].name, date=result[0][2].date, highlight=result[0][2].date + result[0][3].timeAiring, _anchor=result[0][2].date + result[0][3].timeAiring) }}">
+                <!-- Odkaz na vysilany porad -->
+                {{ dates[count.value] }}
+                </a>
+            </td>
+            <td>{{ result[0][3].timeAiring }}</td>
+            <td>{{ result[0][1].name }}</td>
+            <td> {{ result[0][0].programme }}</td>
+            <td>{{ result[0][4].name }}</td>
+        </tr>
+        </a>
+        {% set count.value = count.value + 1 %}
+        {% endfor %}
+    </table>
+    </div>
+</div>
+
+{% endblock %}

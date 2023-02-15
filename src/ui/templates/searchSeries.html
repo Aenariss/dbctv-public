@@ -1,0 +1,59 @@
+<!--
+    * searchSeries.html 
+    * Autor: Vojtech Fiala <xfiala61>
+    *
+    # Soucast bakalarske prace Databaze Vysilani Ceskoslovenske Televize, 2022
+    *
+    * Slouzi k vykresleni sablony pro vysledky vyhledavani poradu
+-->
+
+{% extends "base.html" %}   <!-- Hlavicka -->
+
+{% block pagetitle %}Databáze vysílání Československé televize{% endblock %}    <!-- Nazev stranky -->
+{% block title %}Databáze vysílání Československé televize{% endblock %}    <!-- Titul stranky -->
+
+{% block body %}    <!-- Telo stranky -->
+
+<div class="cnt">
+    <div style="text-align: center; padding-bottom: 5%;">
+        <br><b>Vyhledávaný text: <i>{{ text }}</i></b><br>
+        <i>V případě, že jste čekali odlišné výsledky, zkuste vyhledávání změnit - např. namísto "Nemocnice na kraji města" zkuste pouze "Nemocnice".</i>
+        {% if results|length > 750 %}
+        <!-- Jestlize bylo moc vysledku, dej to vedet -->
+            <div>
+               Bylo nalezeno příliš mnoho výsledků, zkuste více specifikovat/změnit výběr!
+            </div>
+        {% else %}
+        <!-- Kdyz bylo vysledku OK, vykresli je -->
+        <br>
+        <b>Bylo nalezeno celkem {{ results|length }} výsledků.</b>
+        <br><br>
+            <table style="width: 60%;" class="search-table">
+                <!-- Definice tabulky pro vykresleni -->
+                <tr>
+                    <th style="width: 15%;">Datum vysílání</th>
+                    <th style="width: 15%;">Čas vysílání</th>
+                    <th style="width: 45%;">Název pořadu</th>
+                    <th style="width: 10%;">Kanál</th>
+                    <th style="width: 15%;">Okruh vysílání</th>
+                </tr>
+            {% set count = namespace(value=0) %}
+            {% for result in results %}
+                <tr>
+                    <td><a href="{{ url_for('index', programme=result[0].programme, country=result[4].name, date=result[2].date, highlight=result[2].date + result[3].timeAiring, _anchor=result[2].date + result[3].timeAiring) }}">
+                        <!-- Odkaz na vysilany porad -->
+                            {{ dates[count.value] }}
+                        </a>
+                    </td>
+                    <td>{{ result[3].timeAiring }}</td>
+                    <td>{{ result[1].name }}</td>
+                    <td> {{ result[0].programme }}</td>
+                    <td>{{ result[4].name }}</td>
+                </tr>
+                {% set count.value = count.value + 1 %}
+            {% endfor %}
+            </table>
+        {% endif %}
+</div>
+
+{% endblock %}

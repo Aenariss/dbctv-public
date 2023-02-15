@@ -1,0 +1,270 @@
+<!--
+    * base.html 
+    * Autor: Vojtech Fiala <xfiala61>
+    *
+    # Soucast bakalarske prace Databaze Vysilani Ceskoslovenske Televize, 2022
+    *
+    * Vychozi sablona, ktera je kopirovana do vsech ostatnich sablon -- tvori hlavicku stranky
+    * Obsahuje taky obecne skripty, ktere jsou jeji soucasti v zavislosti na tom, kam se pridava
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+        <!--Offline Jquery & Bootstrap -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='scripts/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='scripts/jquery-ui.css') }}">
+        <script src="{{ url_for('static', filename='scripts/jquery-3.6.0.js') }}"></script>
+        <script src="{{ url_for('static', filename='scripts/jquery-ui.js') }}"></script>
+        <script src="{{ url_for('static', filename='scripts/bootstrap.min.js') }}"></script>
+        <!-- Datepicker utility z jquery -->
+        <script type="text/javascript" src="{{ url_for('static', filename='scripts/datepicker-cs.js') }}"></script>
+        <script>
+            // setup kalendare
+            $.datepicker.setDefaults($.datepicker.regional['cs']);
+            $( function() {
+                $( "#datepicker" ).datepicker({
+                    changeYear: true,
+                    changeMonth: true,
+                    yearRange: "1965:1992",
+                    showOtherMonths: true,
+                    minDate: new Date(1965, 11, 27),    // datum startuje na 0 
+                    maxDate: new Date(1992, 11, 31)     
+                });
+            });
+            </script>
+        <title>{% block pagetitle %}{% endblock %}</title>
+    </head>
+
+    <body>
+        <div class="container">
+                <div class="text-center pagename link-no-color"><a href="{{ url_for('index') }}">{% block title %}{% endblock %}</a></div>
+                <div class="text-center infolink"><a href="{{ url_for('infopage') }}">O projektu</a></div>
+                <div style="text-align:center">
+                    <noscript>
+                        <p style="font-size: 150%; padding-bottom: 2em;">
+                            <!-- Chybejici javascript hlaska, bez nej je User Xperience o dost horsi, prosim nechte zaply, nijak zde neskodi -->
+                        Není povolen javascript! Bez něj je sice nějakým způsobem možné s rozhraním interagovat, ale nelze zaručit správnou funkcionalitu!
+                        </p>
+                    </noscript>
+                    <!-- Vyhledavaci formular pro porady -->
+                    <form action="{{ url_for('searchSeries') }}" method="GET">
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <div id="searchSeriesButton" class="input-group">
+                                <input type="text" class="form-control" placeholder="Vyhledat pořad..." 
+                                id="searchbar_film" name="searchbar_film" autocomplete="off" minlength="3" required>
+                                <span class="input-group-btn">
+                                    <br><button type="submit" class="btn btn-primary">Hledat</button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Vyhledavaci formular pro osoby -->
+                    <form action="{{ url_for('searchPeople') }}" method="GET">
+                        <div class="col-lg-4 col-lg-offset-4">
+                            <div id="searchPplButton" class="input-group" style="padding-top: 1rem;">
+                                <input type="text" class="form-control" placeholder="Vyhledat osobu..." 
+                                id="searchbar_people" name="searchbar_people" autocomplete="off" minlength="2" required>
+                                <span id="searchPplButton" class="input-group-btn">
+                                    <br><button type="submit" class="btn btn-primary">Hledat</button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        </div>
+
+        <div style="text-align:center; margin-top: 3rem;">
+        <form id="formStuff" action="{{ url_for('index') }}" method="GET">
+            {% if not search %}
+            <!-- Zobraz vyber poradu jenom na index page -->
+                    <p>
+                        <button onClick=setProgramme(1) class="btn-warning" id="1stprogramme" type="button">1. Program</button>
+                        <button onClick=setProgramme(2) class="btn-warning" id="2ndprogramme" type="button">2. Program</button>
+                        <button onClick=setProgramme(3) class="btn-warning" id="3rdprogramme" type="button">OK3</button>
+                        <button onClick=setCountry(2) class="btn-warning" id="stvprogramme" type="button">STV</button>
+                    </p>
+                    <p>
+                        <button onClick=setCountry(1) class="btn-warning" id="ctv" type="button" checked>Česká část</button>
+                        <button onClick=setCountry(2) class="btn-warning" id="stv" type="button">Slovenská část</button>
+                    </p>
+                    <input type="hidden" id="programme" name="programme" value="{{ saves[0] }}">
+                    <input type="hidden" id="country" name="country" value="{{ saves[1] }}">
+        {% endif %}
+                    <label for="date">Datum</label><br>
+                    <input onchange="this.form.submit()" type="text" id="datepicker" name="date" value="{{ def_val }}" autocomplete="off">
+        </form>
+        </div>
+        {% if not search %}
+        <!-- Zobraz posuvniky tydne jenom na index page -->
+        <div class="week-div">
+            <button onClick=hide(hide_trigger) id="hideDesc" class="btn-warning" type="button">Skrýt popisy</button>
+            <p class="week link-no-color">
+            <a id="prev_week" href="{{ url_for('index', programme=saves[0], country=saves[1], date=times[0]) }}">
+                «
+            </a> 
+            &nbsp; {{ week }} &nbsp; 
+            <a id="next_week" href="{{ url_for('index', programme=saves[0], country=saves[1], date=times[1]) }}">
+                »
+            </a>
+            </p>
+        </div>
+        {% endif %}
+        {% block body %}{% endblock %}<br>
+
+        <script>
+
+            // Uzivatel musi zustat v inputu, aby to fungovalo
+            // https://jqueryui.com/autocomplete/#remote
+            $ (function() {
+                $("#searchbar_film").autocomplete({
+                    source: "{{ url_for('autocompleteSeries', switch=1) }}",
+                    minLength: 3,   // min delka 3 u poradu
+                    delay: 300
+                });
+            });
+
+            $ (function() {
+                $("#searchbar_people").autocomplete({
+                    source: "{{ url_for('autocompleteSeries', switch=2) }}",
+                    minLength: 2,   // min delka 2 u jmen
+                    delay: 300
+                });
+            });
+
+        </script>
+
+        {% if not search %}
+        <script>
+            var hide_trigger = 1    // trigger na rozpoznani jestli uz jsou popisy skryte
+            var date = Date.parse("{{ date_check }}");    // datum ziskane od uzivatele
+            // funkce na skryti popisu
+            function hide(sw) {
+
+                if (sw)
+                    document.getElementById("hideDesc").textContent = "Zobrazit popisy"
+                else
+                document.getElementById("hideDesc").textContent = "Skrýt popisy"
+
+                const descs = document.querySelectorAll('.descr');
+                descs.forEach(desc => {
+                    if (sw) {
+                        desc.classList.add("hidden");
+                    }
+                    else {
+                        desc.classList.remove("hidden");
+                    }
+                });
+                hide_trigger = !hide_trigger
+            }
+
+            // Funkce pro vybarveni vybrane zeme a stanice
+            function colorSelected() {
+                var country = "{{ saves[1] }}";
+                var programme = "{{ saves[0] }}";
+
+                if (date >= Date.parse("1990-05-14")) {
+                    if (programme === "1" && country === "CZ") 
+                    document.getElementById("1stprogramme").classList.add("selected-btn");
+                    else if (programme === "2" && country === "CZ")
+                        document.getElementById("2ndprogramme").classList.add("selected-btn");
+                    else if (programme === "3" && country === "CZ")
+                        document.getElementById("3rdprogramme").classList.add("selected-btn");
+                    else if (country === "SK")
+                        document.getElementById("stvprogramme").classList.add("selected-btn");
+                }
+
+                else {
+                    if (programme === "1") 
+                    document.getElementById("1stprogramme").classList.add("selected-btn");
+                    else if (programme === "2")
+                        document.getElementById("2ndprogramme").classList.add("selected-btn");
+                    else if (programme === "3")
+                        document.getElementById("3rdprogramme").classList.add("selected-btn");
+
+                    if (country === "CZ")
+                        document.getElementById("ctv").classList.add("selected-btn");
+                    else if (country === "SK")
+                        document.getElementById("stv").classList.add("selected-btn");
+                }
+            }
+
+            // Funkce pro nastaveni vyberu programu
+            function setProgramme(val) {
+                document.getElementById("programme").value = val;
+                document.getElementById("country").value = "{{ saves[1] }}"
+
+                if (date >= Date.parse("1990-05-14")) {
+                    document.getElementById("country").value = 'CZ';
+                }
+                document.getElementById("formStuff").submit()
+            }
+
+            // Funkce pro nastaveni vyberu zeme vysilani
+            function setCountry(val) {
+                document.getElementById("programme").value = "{{ saves[0] }}"   // program nastav na predchozi hodnotu
+                if (val == 1) {
+                    document.getElementById("country").value = "CZ";
+                }
+                else if (val == 2) {
+                    document.getElementById("country").value = "SK";
+                    if (date >= Date.parse("1990-05-14")) { // jestlize bylo vybrane slovensko, tak po vzniku S1 uz neresim jeho 2. program
+                        document.getElementById("programme").value = '1';
+                    }
+                }
+                // pod 4.5.1970 by nemelo byt mozne se dostat na 2. program
+                if (date < Date.parse("1970-05-04")) {
+                    document.getElementById("programme").value = '1';
+                }
+
+                document.getElementById("formStuff").submit()
+            }
+            
+            // Funkce pro skryti vyberu stanice podle data (tzn. nezobrazuj OK3 kdyz nevysilalo)
+            function hideProgramme(date) {
+                if (date >= Date.parse("1965-01-01") && date < Date.parse("1970-05-04")) {  // pred 4.5.1970 nebyl 2. program
+                    // skryj vse krom prepinace pro cesko a slovensko
+                    document.getElementById("1stprogramme").classList.add("hidden");
+                    document.getElementById("2ndprogramme").classList.add("hidden");
+                    document.getElementById("3rdprogramme").classList.add("hidden");
+                    document.getElementById("stvprogramme").classList.add("hidden");
+                }
+                else if (date >= Date.parse("1970-05-04") && date < Date.parse("1990-05-14")) { // mezi 70-90 pouze 1. a 2. program (+ slovenska verze)
+                    // skryj 3. program a STV
+                    document.getElementById("3rdprogramme").classList.add("hidden");
+                    document.getElementById("stvprogramme").classList.add("hidden");
+                }
+                else if (date >= Date.parse("1990-05-14")) {    // 14.5.1990 vznika OK3 a prvni program prechazi na F1, druhy na CTV/S1
+                    // prejmenuj 1. program na F1
+                    document.getElementById("1stprogramme").textContent = "F1";
+                    // druhy program na ctv, stv uz se nebdue skryvat
+                    document.getElementById("2ndprogramme").textContent = "ČTV";
+                    // Skryj prepinac ceskeho a slovenskeho vysilani
+                    document.getElementById("stv").classList.add("hidden");
+                    document.getElementById("ctv").classList.add("hidden");
+
+                    if (date <= Date.parse("1991-06-30"))   // STV byla puvodne S1
+                    document.getElementById("stvprogramme").textContent = "S1"; // prejmenuj STV na S1
+                }
+            }
+
+            // Funkce pro skryti posunu na dalsi tyden v pripade max nebo min data
+            function hideNextWeek(date) {
+                if (date >= Date.parse("1992-12-28"))
+                    document.getElementById("next_week").innerHTML = ""
+                else if (date <= Date.parse("1966-01-02"))
+                    document.getElementById("prev_week").innerHTML = ""
+            }
+
+            colorSelected(); // Vybarvi vybrane datum
+            hideProgramme(date); // Skryj programy
+            hideNextWeek(date); // Skryj pripadne posuvniky
+
+        </script>
+        {% endif %}
+    </body>
+</html>

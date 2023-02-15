@@ -1,0 +1,30 @@
+<!--
+    * 404.html 
+    * Autor: Vojtech Fiala <xfiala61>
+    *
+    # Soucast bakalarske prace Databaze Vysilani Ceskoslovenske Televize, 2022
+    *
+    * Chybova hlaska pro nenalezeno -- stranka na webu neni
+-->
+
+
+{% extends "base.html" %}   <!-- Hlavicka -->
+
+{% block pagetitle %}Databáze vysílání Československé televize -- 404{% endblock %}    <!-- Nazev stranky -->
+{% block title %}Databáze vysílání Československé televize{% endblock %}    <!-- Titul stranky -->
+
+{% block body %}    <!-- Telo stranky -->
+
+<div class="container">
+    <div class="text-center" style="padding: 1em;">
+        <h1>
+            Došlo k chybě!
+        </h1>
+        <h2>
+            Error 404 - Stránka nenalezena!
+        </h2>
+        Je mi líto, nejspíš se pokoušíte hledat stránku, která zde neexistuje
+    </div>
+</div>
+
+{% endblock %}
